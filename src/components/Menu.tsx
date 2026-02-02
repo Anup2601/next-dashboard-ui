@@ -1,3 +1,4 @@
+import { role } from "@/lib/data";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -121,20 +122,32 @@ const Menu = () => {
     <div className=" mt-3 text-sm">
       {menuItems.map((i) => (
         <div key={i.title} className="flex flex-col gap-1">
-          {/* <span className="hidden lg:block text-gray-400 font-light my-4">{i.title}</span> */}
-          {i.items.map((item) => (
-            <Link 
-              href={item.href} 
-              key={item.label}
-              className="flex items-center justify-center lg:justify-start gap-2 text-gray-700  py-2">
-              <Image src={item.icon} alt={item.label} width={20} height={20} />
-              <span className="hidden lg:block">{item.label}</span>
-            </Link>
-          ))}
+          {/* <span className="hidden lg:block text-gray-400 font-light my-4">
+            {i.title}
+          </span> */}
+          {i.items.map((item) => {
+            if (item.visible.includes(role)) {
+              return (
+                <Link
+                  href={item.href}
+                  key={item.label}
+                  className="flex items-center justify-center lg:justify-start gap-2 text-gray-700  py-2 md:px-3 rounded-md hover:bg-anupSky transition-colors"
+                >
+                  <Image
+                    src={item.icon}
+                    alt={item.label}
+                    width={20}
+                    height={20}
+                  />
+                  <span className="hidden lg:block">{item.label}</span>
+                </Link>
+              );
+            }
+          })}
         </div>
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default Menu
+export default Menu;
