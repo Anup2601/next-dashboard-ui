@@ -1,3 +1,4 @@
+import FormModal from "@/components/FormModal";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
 import TableSearch from "@/components/TableSearch";
@@ -52,15 +53,16 @@ const AssignmentListPage = () => {
       <td className="hidden lg:table-cell">{item.dueDate}</td>
       <td>
         <div className="flex items-center gap-2">
-          <Link href={`/list/assignments/${item.id}`} >
+          {/* <Link href={`/list/assignments/${item.id}`} >
           <button className=" size-7 flex items-center justify-center rounded-full bg-anupSky ">
             <Image src="/view.png" alt="View" width={16} height={16} />
           </button>
-          </Link>
+          </Link> */}
           {role==="admin" &&
-          <button className=" size-7 flex items-center justify-center rounded-full bg-anupPurple ">
-            <Image src="/delete.png" alt="Delete" width={16} height={16} />
-          </button>
+          <>
+            <FormModal table="assignments" type="update" data={item} />
+            <FormModal table="assignments" type="delete" id={item.id} />
+          </>
           }
         </div>
       </td>
@@ -81,9 +83,7 @@ const AssignmentListPage = () => {
               <Image src="/sort.png" alt="Filter" width={14} height={14} />
             </button>
             {role==="admin" &&
-            <button className="size-8 flex items-center justify-center rounded-full bg-anupYellow">
-              <Image src="/plus.png" alt="Filter" width={14} height={14} />
-            </button>
+            <FormModal table="assignments" type="create" />
             }
           </div>
         </div>
