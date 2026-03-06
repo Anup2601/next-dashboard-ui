@@ -1,5 +1,6 @@
 import AnnouncementsCard from "@/components/AnnouncementsCard";
 import BigCalendar from "@/components/BigCalendar";
+import FormModal from "@/components/FormModal";
 import Performance from "@/components/Performance";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,12 +10,12 @@ const SingleTeacherPage = () => {
   return (
     <div className="flex flex-col flex-1 p-4 gap-4 xl:flex-row">
       {/* Left */}
-      <div className="w-full xl:w-2/3">
+      <div className="w-full xl:w-3/4">
         {/* Top */}
         <div className="flex flex-col lg:flex-row gap-4 ">
           {/* User Info Card */}
           <div className="bg-anupSky py-6 px-4 rounded-md flex-1 flex gap-4">
-            <div className="w-1/3 ">
+            <div className="w-1/4 flex items-center justify-center">
               <Image
                 src="https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=144&h=1200"
                 alt="Teacher"
@@ -23,8 +24,24 @@ const SingleTeacherPage = () => {
                 className="rounded-full object-cover h-36 w-36"
               />
             </div>
-            <div className="w-2/3 flex flex-col justify-between gap-4">
+            <div className="w-3/4 flex flex-col justify-between gap-2">
+            <div className="flex items-center gap-4">
               <h1 className="text-xl font-semibold">Anup Mishra</h1>
+              <FormModal table="teachers" type="update" data={{
+                id:1,
+                name:"Anup Mishra",
+                email:"anupm0873@gmail.com",
+                password:"password",
+                firstName:"Anup",
+                lastName:"Mishra",
+                phone:"+91 734567890",
+                address:"123 Main St, City, Country",
+                bloodType:"A+",
+                dateOfBirth:"1990-01-01",
+                gender: "male",
+                img:"https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=144&h=1200",
+              }} />
+              </div>
               <p className="text-sm text-gray-500">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
               </p>
@@ -43,7 +60,7 @@ const SingleTeacherPage = () => {
                 </div>
                 <div className="w-full md:w-1/3 lg:w-full 2xl:w-1/3 flex items-center gap-2">
                   <Image src="/phone.png" alt="Phone" width={14} height={14} />
-                  <span>+91 734567890</span>
+                  <span>734567890</span>
                 </div>
               </div>
             </div>
@@ -51,7 +68,7 @@ const SingleTeacherPage = () => {
           {/* Small Card */}
           <div className="flex flex-1 gap-4 justify-between flex-wrap">
             {/* card */}
-            <div className="bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%]  lg:w-[46%] ">
+            <div className="bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%]  lg:w-[48%] ">
               <Image
                 src="/singleAttendance.png"
                 alt="Attendance"
@@ -65,7 +82,7 @@ const SingleTeacherPage = () => {
               </div>
             </div>
             {/* card */}
-            <div className="bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%]  lg:w-[46%] ">
+            <div className="bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%]  lg:w-[48%] ">
               <Image
                 src="/singleBranch.png"
                 alt="Branches"
@@ -79,7 +96,7 @@ const SingleTeacherPage = () => {
               </div>
             </div>
             {/* card */}
-            <div className="bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%]  lg:w-[46%] ">
+            <div className="bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%]  lg:w-[48%] ">
               <Image
                 src="/singleClass.png"
                 alt="Classes"
@@ -93,7 +110,7 @@ const SingleTeacherPage = () => {
               </div>
             </div>
             {/* card */}
-            <div className="bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%]  lg:w-[46%] ">
+            <div className="bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%]  lg:w-[48%] ">
               <Image
                 src="/singleLesson.png"
                 alt="Lessons"
@@ -115,7 +132,7 @@ const SingleTeacherPage = () => {
         </div>
       </div>
       {/* Right */}
-      <div className="w-full xl:w-1/3 flex flex-col gap-4">
+      <div className="w-full xl:w-1/4 flex flex-col gap-4">
       <div className="bg-white p-4 rounded-md">
         <h1 className="text-xl font-semibold">Shortcuts</h1>
         <div className="mt-4 flex gap-4 flex-wrap text-xs text-gray-500">
