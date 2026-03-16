@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: school
+    restart: always
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: fluxypy
+      POSTGRES_PASSWORD: 22febAnshAnup
+      POSTGRES_DB: school
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
