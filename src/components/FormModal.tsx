@@ -29,7 +29,7 @@ const FormModal = ({table, type, data, id}:{
             | 'events';
     type: 'create' | 'update' | 'delete';
     data?: any;
-    id?: number;
+    id?: number | string;
 }) => {
     const size = type === 'create' ? 'w-8 h-8' : 'w-7 h-7';
     const bgColor = type === 'create' ? 'bg-anupYellow' : type === 'update' ? 'bg-anupSky' : 'bg-anupPurple';

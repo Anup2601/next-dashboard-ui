@@ -3,15 +3,13 @@ import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
 import TableSearch from "@/components/TableSearch";
 import {  announcementsData, role } from "@/lib/data";
+import { prisma } from "@/lib/prisma";
+import { ITEM_PER_PAGE } from "@/lib/settings";
+import { Announcement, Class, Prisma } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 
-type Announcements = {
-  id: number;
-  title: string;
-  class: number;
-  date: string;
-};
+type AnnouncementsList = Announcement & { class: Class} ;
 
 const columns = [
   {
@@ -34,32 +32,70 @@ const columns = [
   },
 ];
 
-const AnnouncementsListPage = () => {
-  const renderRow = (item: Announcements) => (
-    <tr
-      key={item.id}
-      className=" border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-anupPurpleLight"
-    >
-      <td className="flex items-center gap-4 p-4">{item.title}</td>
-      <td className="hidden md:table-cell">{item.class}</td>
-      <td className="hidden md:table-cell">{item.date}</td>
-      <td>
-        <div className="flex items-center gap-2">
-          {/* <Link href={`/list/announcements/${item.id}`}>
-            <button className=" size-7 flex items-center justify-center rounded-full bg-anupSky ">
-              <Image src="/view.png" alt="View" width={16} height={16} />
-            </button>
-          </Link> */}
-          {role === "admin" && (
-           <>
-            <FormModal table="announcements" type="update" data={item} />
-            <FormModal table="announcements" type="delete" id={item.id} />
-           </>
-          )}
-        </div>
-      </td>
-    </tr>
-  );
+const renderRow = (item: AnnouncementsList) => (
+  <tr
+    key={item.id}
+    className=" border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-anupPurpleLight"
+  >
+    <td className="flex items-center gap-4 p-4">{item.title}</td>
+    <td className="hidden md:table-cell">{item.class.name}</td>
+    <td className="hidden md:table-cell">{new Intl.DateTimeFormat("en-IN").format(new Date(item.date))}</td>
+    <td>
+      <div className="flex items-center gap-2">
+        {/* <Link href={`/list/announcements/${item.id}`}>
+          <button className=" size-7 flex items-center justify-center rounded-full bg-anupSky ">
+            <Image src="/view.png" alt="View" width={16} height={16} />
+          </button>
+        </Link> */}
+        {role === "admin" && (
+         <>
+          <FormModal table="announcements" type="update" data={item} />
+          <FormModal table="announcements" type="delete" id={item.id} />
+         </>
+        )}
+      </div>
+    </td>
+  </tr>
+);
+
+const AnnouncementsListPage = async ({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | undefined };
+}) => {
+  const { page, ...quaryParams } = searchParams;
+
+  const p = page ? parseInt(page) : 1;
+
+  // URL PARMS Condition
+
+  const quary: Prisma.AnnouncementWhereInput = {};
+
+  if (quaryParams) {
+    for (const [key, value] of Object.entries(quaryParams)) {
+      if (value !== undefined) {
+        switch (key) {
+            case "search":
+              quary.title = { contains: value, mode: "insensitive" };
+              break;
+            default:
+              break;
+        }
+      }
+    }
+  }
+  const [data, count] = await prisma.$transaction([
+    prisma.announcement.findMany({
+      where: quary,
+      include: {
+        class: true,
+      },
+      take: ITEM_PER_PAGE,
+      skip: (p - 1) * ITEM_PER_PAGE,
+    }),
+    prisma.announcement.count({ where: quary }),
+  ]);
+  
   return (
     <div className="bg-white p-4 m-4 rounded-md flex-1 mt-0">
       {/* Top */}
@@ -81,10 +117,10 @@ const AnnouncementsListPage = () => {
         </div>
       </div>
       {/* List */}
-      <Table columns={columns} renderRow={renderRow} data={announcementsData} />
+      <Table columns={columns} renderRow={renderRow} data={data} />
       {/* Pagination */}
       <div className="">
-        <Pagination />
+        <Pagination page={p} count={count} />
       </div>
     </div>
   );
